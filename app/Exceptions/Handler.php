@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +48,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($this->JWTRender($exception)){
+//            exit( 'Fuck~~JWT');
+        }
         return parent::render($request, $exception);
+    }
+
+    public function JWTRender($e)
+    {
+        if($e instanceof JWTException){
+            return true;
+        }
     }
 }

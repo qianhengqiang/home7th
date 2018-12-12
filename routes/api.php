@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/m/{id}',function (){
+   return app('config')['hashing.driver'];
+});
+
+//Route::prefix('admin')->namespace("Admin")->group(function (){
+//   require_once 'adminer.php';
+//});
