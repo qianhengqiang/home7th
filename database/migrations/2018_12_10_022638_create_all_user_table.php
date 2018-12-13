@@ -16,7 +16,7 @@ class CreateAllUserTable extends Migration
         Schema::create('adminers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -26,7 +26,7 @@ class CreateAllUserTable extends Migration
         Schema::create('managers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
