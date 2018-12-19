@@ -15,5 +15,6 @@ Route::get('/', function () {
 //    $m = \Ramsey\Uuid\Uuid::uuid1('3333');
 //    echo $m->getHex();
 //    dd($m);
+//    \Illuminate\Support\Facades\Log::info('Hello Log');
     return view('welcome');
 });
