@@ -13,9 +13,9 @@ class ManagerController extends Controller
 
     private $managerService;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        parent::__construct($request);
+        parent::__construct();
 
         $this->managerService = new ManagerService($this->guard);
     }

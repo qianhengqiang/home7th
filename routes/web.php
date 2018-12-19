@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
+//    $m = \Ramsey\Uuid\Uuid::uuid1('3333');
+//    echo $m->getHex();
+//    dd($m);
     return view('welcome');
 });

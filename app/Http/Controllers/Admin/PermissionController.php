@@ -16,9 +16,9 @@ class PermissionController extends Controller
 
     private $permissionService;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        parent::__construct($request);
+        parent::__construct();
 
         $this->permissionService = new PermissionService($this->guard);
     }

@@ -36,5 +36,14 @@ Route::namespace('Admin')->group(function (){
         Route::post('deleteManager','ManagerController@deleteManager');
 
     });
+
+    Route::prefix('building')->group(function(){
+
+        Route::post('create','BuildingController@create');
+        Route::get('show','BuildingController@show');
+        Route::get('list','BuildingController@index');
+        Route::delete('delete','BuildingController@delete');
+
+    });
 });
 

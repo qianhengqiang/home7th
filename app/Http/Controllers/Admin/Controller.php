@@ -15,10 +15,11 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     protected $guard;
 
-    public function __construct(Request $request)
+//    public function __construct(Request $request)
+    public function __construct()
     {
 
-        $this->guard = $request->header('guard','adminer');
+        $this->guard = request()->header('guard',config('system.default_guard'));
 
         $this->middleware('auth:'.$this->guard, ['except' => ['login']]);
 

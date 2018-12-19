@@ -18,10 +18,8 @@ use Spatie\Permission\Exceptions\RoleDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class PermissionService
+class PermissionService extends BaseService
 {
-
-    private $guard;
 
     private $auth;
 
@@ -33,8 +31,8 @@ class PermissionService
 
     public function __construct($guard)
     {
-
-        $this->guard = $guard;
+        parent::__construct($guard);
+//        $this->guard = $guard;
 
     }
 
