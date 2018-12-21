@@ -12,7 +12,7 @@ use App\Repository\BuildingBeforeRepository;
 use App\Services\BuildingService;
 use Illuminate\Http\Request;
 
-class BuildingController extends Controller
+class BuildingController2 extends Controller
 {
     //
 

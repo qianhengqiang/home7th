@@ -37,13 +37,14 @@ Route::namespace('Admin')->group(function (){
 
     });
 
-    Route::prefix('building')->group(function(){
-
-        Route::post('create','BuildingController@create');
-        Route::get('show','BuildingController@show');
-        Route::get('list','BuildingController@index');
-        Route::delete('delete','BuildingController@delete');
-
-    });
+    Route::resource('building', 'BuildingsController');
+//    Route::prefix('building')->group(function(){
+//
+//        Route::post('create','BuildingController@create');
+//        Route::get('show','BuildingController@show');
+//        Route::get('list','BuildingController@index');
+//        Route::delete('delete','BuildingController@delete');
+//
+//    });
 });
 

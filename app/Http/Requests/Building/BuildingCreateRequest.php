@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Building;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class BuildingRequest extends FormRequest
+class BuildingCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -82,12 +80,5 @@ class BuildingRequest extends FormRequest
 
 
         ];
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-
-        throw new HttpResponseException(response()->json($validator->errors(), 422));
-
     }
 }

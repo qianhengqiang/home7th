@@ -33,8 +33,4 @@ class AdminManagerRepository
         $this->manager->syncRoles($roles);
     }
 
-    public function a()
-    {
-
-    }
 }

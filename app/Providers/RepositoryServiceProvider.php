@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Services\PermissionService;
+use App\Repositories\Building\BuildingRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -15,6 +15,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+//        $this->app->build(BuildingRepository::class);
     }
 
     /**
@@ -24,11 +25,9 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
-    }
-
-    public function registerPermission()
-    {
-        $this->app->singleton('PermissionRepository',PermissionService::class);
+        $this->app->bind(\App\Repositories\Building\BuildingRepository::class, \App\Repositories\Building\BuildingRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\Building\FloorRepository::class, \App\Repositories\Building\FloorRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\Building\ContractRepository::class, \App\Repositories\Building\ContractRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\Building\PropertyRepository::class, \App\Repositories\Building\PropertyRepositoryEloquent::class);
     }
 }

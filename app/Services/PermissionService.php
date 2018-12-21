@@ -21,13 +21,13 @@ use Spatie\Permission\Models\Role;
 class PermissionService extends BaseService
 {
 
-    private $auth;
+    protected $auth;
 
     private $role;
 
-    private $permission;
+    protected $permission;
 
-    private $permissions;
+    protected $permissions;
 
     public function __construct($guard)
     {

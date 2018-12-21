@@ -15,7 +15,7 @@ class CreateBuildingTable extends Migration
     {
         Schema::create('buildings', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('user_id')->nullable();
             $table->tinyInteger('type')->comment('1:写字楼,2:联合办公,3:公寓')->default(1);
             $table->string('province')->comment('省份')->nullable();
             $table->string('city')->comment('城市')->nullable();
@@ -27,7 +27,7 @@ class CreateBuildingTable extends Migration
             $table->integer('jianzhu_area')->comment('建筑面积')->nullable()->default(0);
             $table->integer('zhandi_area')->comment('占地面积')->nullable()->default(0);
             $table->integer('manager_area')->comment('管理面积')->nullable()->default(0);
-            $table->timestamp('build_time')->nullable();
+            $table->timestamp('build_time')->comment('建成时间')->nullable();
             $table->integer('order_in_advance_day')->comment('账单提醒天数')->nullable()->default(0);
             $table->integer('image')->nullable()->default(0)->comment('图片id');
             $table->string('pre_contract_num')->comment('合同编号前缀')->nullable();
@@ -37,7 +37,7 @@ class CreateBuildingTable extends Migration
 
         Schema::create('building_floors',function (Blueprint $table){
             $table->increments('id');
-            $table->integer('building_id');
+            $table->integer('building_id')->nullable();
             $table->string('name')->comment('楼层名称');
             $table->integer('space_count')->comment('面积总数或者工位总数')->default(0);
             $table->integer('hourse_count')->comment('房源总数')->default(0);
@@ -47,7 +47,7 @@ class CreateBuildingTable extends Migration
 
         Schema::create('building_contract_setting',function (Blueprint $table){
             $table->increments('id');
-            $table->integer('building_id');
+            $table->integer('building_id')->nullable();
             $table->tinyInteger('deposit_unit')->comment('默认押金单位,1:元,2:月')->default(1);
             $table->tinyInteger('space_unit')->comment('空间租赁单位,1:面积,2:工位')->default(1);
             $table->tinyInteger('price_unit')->comment('基础单价单位,1:元/space·天,2:元/space·月,3:元/天,4:元/月')->default(1);
@@ -81,7 +81,7 @@ class CreateBuildingTable extends Migration
 
         Schema::create('building_property_setting',function (Blueprint $table){
             $table->increments('id');
-            $table->integer('building_id');
+            $table->integer('building_id')->nullable();
             $table->tinyInteger('property_type')->comment('物业类型，1:写字楼，2:住宅，3:商用')->default(1);
             $table->tinyInteger('interval_month')->comment('默认支付类型(几月一付)')->default(1);
             $table->double('fee',8,2)->comment('默认物业费')->default(0);
