@@ -17,6 +17,8 @@ abstract class Auth extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
+    public const SUPER = [1,2];
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -39,7 +41,8 @@ abstract class Auth extends Authenticatable implements JWTSubject
         return $this->getGuardNames();
     }
 
-    public function fetchByCondition($condition)
+    public function isSuperAdminer()
     {
+        return in_array($this->id,static::SUPER);
     }
 }

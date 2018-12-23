@@ -8,4 +8,6 @@
 
 return [
     'default_guard' => env('DEFAULT_GUARD','adminer'),
+//    'current_guard' => env('DEFAULT_GUARD','adminer'),
+    'current_guard' => 'user',
 ];

@@ -31,5 +31,24 @@ class Floor extends Model implements Transformable
 
     public $timestamps = false;
 
+    public function addHouse(House $house)
+    {
+        $this->space_count += $house->space_count;
+        $this->hourse_count ++ ;
+        return $this;
+    }
+
+    public function deleteHouse(House $house)
+    {
+        $this->space_count -= $house->space_count;
+        $this->hourse_count --;
+        return $this;
+    }
+
+    public function updateHouse(House $house)
+    {
+        $this->space_count += ($house->space_count - $house->getOriginal('space_count'));
+        return $this;
+    }
 
 }

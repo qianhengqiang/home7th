@@ -8,7 +8,7 @@
 
 namespace App\Services;
 
-use App\Repository\ManagerRepository;
+use App\Repositories\ManagerRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,7 +44,7 @@ class ManagerService
             $query->where('name','like','%'.$data['name'].'%');
         });
 
-        $list = $query->orderBy('created_at','desc')->paginate(2);
+        $list = $query->orderBy('created_at','desc')->paginate();
 //        $list = $query->orderBy('created_at','desc')->paginate($this->manager->getPerpage);
 //        $page = $condition['page'] ?? 1;
 //        $tmp = new $c
@@ -76,7 +76,7 @@ class ManagerService
     {
 
         $this->setManager($managerId);
-
+//dd($this->manager);
         $this->managerRepository = new ManagerRepository($this->manager);
 
         $this->managerRepository->changePassword($password);

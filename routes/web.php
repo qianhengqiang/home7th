@@ -12,9 +12,12 @@
 */
 
 Route::get('/', function () {
+    $building = \App\Entities\Building\Building::first();
+    $building->name = 'HELLO';
+//    dd($building->getOriginal('name'));
 //    $m = \Ramsey\Uuid\Uuid::uuid1('3333');
 //    echo $m->getHex();
 //    dd($m);
 //    \Illuminate\Support\Facades\Log::info('Hello Log');
-    return view('welcome');
-});
+//    return view('welcome');
+})->middleware('test:aaaaa');

@@ -6,7 +6,7 @@
  * Time: 3:37 PM
  */
 
-namespace App\Repository;
+namespace App\Repositories;
 
 use App\Models\Auth;
 use Illuminate\Support\Facades\Hash;

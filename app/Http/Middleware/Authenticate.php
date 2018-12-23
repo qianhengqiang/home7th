@@ -12,6 +12,18 @@ class Authenticate extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return string
      */
+
+    public function handle($request, \Closure $next, ...$guards)
+    {
+        $this->authenticate($request, $guards);
+//        if(isset($guards))
+//            config(['system.current_guard'=>$guards[0]]);
+
+        $request->merge(['user_id'=>$this->auth->user()->id]);
+
+        return $next($request);
+    }
+
     protected function redirectTo($request)
     {
 //        return '/';

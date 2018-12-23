@@ -60,12 +60,31 @@ class Building extends Model implements Transformable,Presentable
         return $this->hasOne(Property::class);
     }
 
-    public function transform()
+    public function addHouse(House $house)
     {
-        return [
-            'id'=> $this->id,
-            'name'=>$this->name,
-        ];
+        $this->manager_area += $house->space_count;
+        return $this;
     }
+
+    public function deleteHouse(House $house)
+    {
+        $this->manager_area -= $house->space_count;
+        return $this;
+    }
+
+    public function updateHouse(House $house)
+    {
+        $this->manager_area += ($house->space_count - $house->getOriginal('space_count'));
+        return $this;
+    }
+
+    public function setUser($user)
+    {
+
+        $this->user_id = $user->id;
+
+        return $this;
+    }
+
 
 }

@@ -19,7 +19,7 @@ Route::namespace('Admin')->group(function (){
         Route::get('getAllRoles','PermissionController@getAllRoles');
         Route::post('addRoleWithPermissions','PermissionController@addRoleWithPermissions');
         Route::post('deleteRole','PermissionController@deleteRole');
-        Route::post('assignPermisionsToRole','PermissionController@assignPermisionsToRole');
+        Route::post('assignPermissionsToRole','PermissionController@assignPermissionsToRole');
         Route::get('getPermissionsByRole','PermissionController@getPermissionsByRole');
 
         Route::get('getAllPermissions','PermissionController@getAllPermissions');
@@ -38,6 +38,14 @@ Route::namespace('Admin')->group(function (){
     });
 
     Route::resource('building', 'BuildingsController');
+    Route::resource('house', 'HousesController');
+
+
+    Route::prefix('tag')->group(function(){
+        Route::get('belongToUser','TagsController@belongToUser');
+
+    });
+    Route::resource('tag', 'TagsController');
 //    Route::prefix('building')->group(function(){
 //
 //        Route::post('create','BuildingController@create');

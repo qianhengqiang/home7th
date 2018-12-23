@@ -6,13 +6,15 @@
  * Time: 2:55 PM
  */
 
-namespace App\Entities\Building;
+namespace App\DomainService;
 
 
+use App\Events\BuildingCreateEvent;
 use App\Repositories\Building\BuildingRepository;
 use App\Repositories\Building\ContractRepository;
 use App\Repositories\Building\FloorRepository;
 use App\Repositories\Building\PropertyRepository;
+use Illuminate\Foundation\Application;
 
 class BuildingDomainService
 {
@@ -23,9 +25,9 @@ class BuildingDomainService
     private $property;
     private $floor;
 
-    public function __construct()
+    public function __construct(Application $app)
     {
-        $this->app = app();
+        $this->app = $app;
         $this->repository = $this->app->make(BuildingRepository::class);
         $this->contract = $this->app->make(ContractRepository::class);
         $this->property = $this->app->make(PropertyRepository::class);
@@ -58,6 +60,8 @@ class BuildingDomainService
         $building->propertyInfo()->save($property);
 
         $building->floors()->createMany($floors);
+
+//        event(new BuildingCreateEvent($building));
 
         return $this->repository->with(['floors','contractInfo','propertyInfo'])->find($building->id);
     }

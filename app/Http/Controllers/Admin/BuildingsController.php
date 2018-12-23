@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Entities\Building\BuildingDomainService;
+//use App\Entities\Building\BuildingDomainService;
+use App\DomainService\BuildingDomainService;
 use App\Http\Controllers\Admin\Controller;
 use Illuminate\Http\Request;
 

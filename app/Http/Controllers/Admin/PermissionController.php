@@ -46,7 +46,7 @@ class PermissionController extends Controller
 
     }
 
-    public function assignPermisionsToRole(Request $request)
+    public function assignPermissionsToRole(Request $request)
     {
 
         $result = $this->permissionService->assignPermisionsToRole($request->role,$request->permissions);

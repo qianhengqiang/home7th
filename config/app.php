@@ -180,6 +180,10 @@ return [
 
         \App\Providers\RepositoryServiceProvider::class,
 
+        \App\Providers\DomianServiceServiceProvider::class,
+
+        \App\Providers\ObserverServiceProvider::class,
+
     ],
 
     /*

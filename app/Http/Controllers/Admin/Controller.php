@@ -21,6 +21,8 @@ class Controller extends BaseController
 
         $this->guard = request()->header('guard',config('system.default_guard'));
 
+        config(['auth.defaults.guard'=>$this->guard]);
+
         $this->middleware('auth:'.$this->guard, ['except' => ['login']]);
 
     }
