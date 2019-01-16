@@ -1,50 +1,44 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Contract;
 
-use App\DomainService\TagsDomainService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Illuminate\Support\Facades\Auth;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\TagCreateRequest;
-use App\Http\Requests\TagUpdateRequest;
-use App\Repositories\TagRepository;
-use App\Validators\TagValidator;
+use App\Http\Requests\ContractCreateRequest;
+use App\Http\Requests\ContractUpdateRequest;
+use App\Repositories\Contract\ContractRepository;
+use App\Validators\Contract\ContractValidator;
 
 /**
- * Class TagsController.
+ * Class ContractsController.
  *
- * @package namespace App\Http\Controllers;
+ * @package namespace App\Http\Controllers\Contract;
  */
-class TagsController extends Controller
+class ContractsController extends Controller
 {
     /**
-     * @var TagRepository
+     * @var ContractRepository
      */
     protected $repository;
 
     /**
-     * @var TagValidator
+     * @var ContractValidator
      */
     protected $validator;
 
-    protected $service;
-
     /**
-     * TagsController constructor.
+     * ContractsController constructor.
      *
-     * @param TagRepository $repository
-     * @param TagValidator $validator
+     * @param ContractRepository $repository
+     * @param ContractValidator $validator
      */
-    public function __construct(TagRepository $repository, TagValidator $validator,TagsDomainService $tagsDomainService)
+    public function __construct(ContractRepository $repository, ContractValidator $validator)
     {
-        parent::__construct();
         $this->repository = $repository;
         $this->validator  = $validator;
-        $this->service = $tagsDomainService;
     }
 
     /**
@@ -55,39 +49,38 @@ class TagsController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
-        $tags = $this->repository->with(['childrenSystem'])->findByField('parent_id',0);
+        $contracts = $this->repository->all();
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $tags,
+                'data' => $contracts,
             ]);
         }
 
-        return view('tags.index', compact('tags'));
+        return view('contracts.index', compact('contracts'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  TagCreateRequest $request
+     * @param  ContractCreateRequest $request
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(TagCreateRequest $request)
+    public function store(ContractCreateRequest $request)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
-            $tag = $this->repository->create($request->all());
+            $contract = $this->repository->create($request->all());
 
             $response = [
-                'message' => 'Tag created.',
-                'data'    => $tag->toArray(),
+                'message' => 'Contract created.',
+                'data'    => $contract->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -117,17 +110,16 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-
-        $tag = $this->repository->find($id);
+        $contract = $this->repository->find($id);
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $tag,
+                'data' => $contract,
             ]);
         }
 
-        return view('tags.show', compact('tag'));
+        return view('contracts.show', compact('contract'));
     }
 
     /**
@@ -139,32 +131,32 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
-        $tag = $this->repository->find($id);
+        $contract = $this->repository->find($id);
 
-        return view('tags.edit', compact('tag'));
+        return view('contracts.edit', compact('contract'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  TagUpdateRequest $request
+     * @param  ContractUpdateRequest $request
      * @param  string            $id
      *
      * @return Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(TagUpdateRequest $request, $id)
+    public function update(ContractUpdateRequest $request, $id)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $tag = $this->repository->update($request->all(), $id);
+            $contract = $this->repository->update($request->all(), $id);
 
             $response = [
-                'message' => 'Tag updated.',
-                'data'    => $tag->toArray(),
+                'message' => 'Contract updated.',
+                'data'    => $contract->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -173,7 +165,6 @@ class TagsController extends Controller
             }
 
             return redirect()->back()->with('message', $response['message']);
-
         } catch (ValidatorException $e) {
 
             if ($request->wantsJson()) {
@@ -198,30 +189,16 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-
-        $deleted = $this->service->deleteTagById($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json($deleted);
-        }
-
-        return redirect()->back()->with('message', 'Tag deleted.');
-    }
-
-    public function belongToUser()
-    {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
-        $tags = $this->repository->with(['childrenUsers'])->findByField('parent_id',0);
+        $deleted = $this->repository->delete($id);
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $tags,
+                'message' => 'Contract deleted.',
+                'deleted' => $deleted,
             ]);
         }
 
-        return view('tags.index', compact('tags'));
+        return redirect()->back()->with('message', 'Contract deleted.');
     }
 }

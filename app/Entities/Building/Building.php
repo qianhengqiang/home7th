@@ -62,19 +62,31 @@ class Building extends Model implements Transformable,Presentable
 
     public function addHouse(House $house)
     {
-        $this->manager_area += $house->space_count;
+        if($house->space_type == House::AREA) {
+            $this->manager_area += $house->space_count;
+        }else{
+            $this->manager_gongwei += $house->space_count;
+        }
         return $this;
     }
 
     public function deleteHouse(House $house)
     {
-        $this->manager_area -= $house->space_count;
+        if($house->space_type == House::AREA) {
+            $this->manager_area -= $house->space_count;
+        }else{
+            $this->manager_gongwei -= $house->space_count;
+        }
         return $this;
     }
 
     public function updateHouse(House $house)
     {
-        $this->manager_area += ($house->space_count - $house->getOriginal('space_count'));
+        if($house->space_type == House::AREA) {
+            $this->manager_area += ($house->space_count - $house->getOriginal('space_count'));
+        }else{
+            $this->manager_gongwei += ($house->space_count - $house->getOriginal('space_count'));
+        }
         return $this;
     }
 

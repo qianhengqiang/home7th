@@ -12,8 +12,13 @@
 */
 
 Route::get('/', function () {
-    $building = \App\Entities\Building\Building::first();
-    $building->name = 'HELLO';
+    $data['companyName'] = 'Hello';
+//    $data['contactName'] = 'Post';
+    $data['replyName'] = 'Reply';
+//    return  \App\Entities\Renter::create($data);
+
+//    $building = \App\Entities\Building\Building::first();
+//    $building->name = 'HELLO';
 //    dd($building->getOriginal('name'));
 //    $m = \Ramsey\Uuid\Uuid::uuid1('3333');
 //    echo $m->getHex();

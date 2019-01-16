@@ -2,49 +2,47 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DomainService\TagsDomainService;
-use Illuminate\Http\Request;
+use App\DomainService\RenterDomainService;
+use App\Http\Requests\Renter\RenterCreateRequest;
+use App\Http\Requests\Renter\RenterUpdateRequest;
+use App\Repositories\Renter\RenterRepository;
+use App\Validators\Renter\RenterValidator;
 
-use App\Http\Requests;
-use Illuminate\Support\Facades\Auth;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\TagCreateRequest;
-use App\Http\Requests\TagUpdateRequest;
-use App\Repositories\TagRepository;
-use App\Validators\TagValidator;
+//use App\Repositories\RenterRepository;
+//use App\Validators\RenterValidator;
 
 /**
- * Class TagsController.
+ * Class RentersController.
  *
  * @package namespace App\Http\Controllers;
  */
-class TagsController extends Controller
+class RentersController extends Controller
 {
     /**
-     * @var TagRepository
+     * @var RenterRepository
      */
     protected $repository;
 
     /**
-     * @var TagValidator
+     * @var RenterValidator
      */
     protected $validator;
 
     protected $service;
-
     /**
-     * TagsController constructor.
+     * RentersController constructor.
      *
-     * @param TagRepository $repository
-     * @param TagValidator $validator
+     * @param RenterRepository $repository
+     * @param RenterValidator $validator
      */
-    public function __construct(TagRepository $repository, TagValidator $validator,TagsDomainService $tagsDomainService)
+    public function __construct(RenterRepository $repository, RenterValidator $validator,RenterDomainService $service)
     {
         parent::__construct();
         $this->repository = $repository;
         $this->validator  = $validator;
-        $this->service = $tagsDomainService;
+        $this->service = $service;
     }
 
     /**
@@ -55,39 +53,38 @@ class TagsController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
-        $tags = $this->repository->with(['childrenSystem'])->findByField('parent_id',0);
+        $renters = $this->repository->paginate();
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $tags,
+                'data' => $renters,
             ]);
         }
 
-        return view('tags.index', compact('tags'));
+        return view('renters.index', compact('renters'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  TagCreateRequest $request
+     * @param  RenterCreateRequest $request
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(TagCreateRequest $request)
+    public function store(RenterCreateRequest $request)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
-            $tag = $this->repository->create($request->all());
+            $renter = $this->service->createRenter($request->all());
 
             $response = [
-                'message' => 'Tag created.',
-                'data'    => $tag->toArray(),
+                'message' => 'Renter created.',
+                'data'    => $renter,
             ];
 
             if ($request->wantsJson()) {
@@ -117,17 +114,16 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-
-        $tag = $this->repository->find($id);
+        $renter = $this->repository->with(['companyInfo','kaipiaoInfo'])->find($id);
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $tag,
+                'data' => $renter,
             ]);
         }
 
-        return view('tags.show', compact('tag'));
+        return view('renters.show', compact('renter'));
     }
 
     /**
@@ -139,32 +135,33 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
-        $tag = $this->repository->find($id);
+        $renter = $this->repository->find($id);
 
-        return view('tags.edit', compact('tag'));
+        return view('renters.edit', compact('renter'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  TagUpdateRequest $request
+     * @param  RenterUpdateRequest $request
      * @param  string            $id
      *
      * @return Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(TagUpdateRequest $request, $id)
+    public function update(RenterUpdateRequest $request, $id)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $tag = $this->repository->update($request->all(), $id);
+//            $renter = $this->repository->update($request->all(), $id);
+            $renter = $this->service->updateRenter($request->all(), $id);
 
             $response = [
-                'message' => 'Tag updated.',
-                'data'    => $tag->toArray(),
+                'message' => 'Renter updated.',
+                'data'    => $renter,
             ];
 
             if ($request->wantsJson()) {
@@ -173,7 +170,6 @@ class TagsController extends Controller
             }
 
             return redirect()->back()->with('message', $response['message']);
-
         } catch (ValidatorException $e) {
 
             if ($request->wantsJson()) {
@@ -198,30 +194,16 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-
-        $deleted = $this->service->deleteTagById($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json($deleted);
-        }
-
-        return redirect()->back()->with('message', 'Tag deleted.');
-    }
-
-    public function belongToUser()
-    {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
-        $tags = $this->repository->with(['childrenUsers'])->findByField('parent_id',0);
+        $deleted = $this->service->deleteRenter($id);
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $tags,
+                'message' => 'Renter deleted.',
+                'deleted' => $deleted,
             ]);
         }
 
-        return view('tags.index', compact('tags'));
+        return redirect()->back()->with('message', 'Renter deleted.');
     }
 }

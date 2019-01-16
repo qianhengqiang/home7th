@@ -31,5 +31,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\Building\PropertyRepository::class, \App\Repositories\Building\PropertyRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\TagRepository::class, \App\Repositories\TagRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\Building\HouseRepository::class, \App\Repositories\Building\HouseRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\Renter\RenterRepository::class, \App\Repositories\Renter\RenterRepositoryEloquent::class);
     }
 }

@@ -22,6 +22,7 @@ class CreateHousesTable extends Migration
             $table->tinyInteger('business_status')->comment('招商状态,0:不招商，1：招商中')->default(0);
             $table->tinyInteger('lease_status')->comment('租赁情况，0：未出租，1：已出租')->default(0);
 
+            $table->tinyInteger('space_type')->comment('1:面积，2：工位')->default(1)->nullable();
             $table->integer('space_count')->comment('面积/工位')->default(0);
             $table->string('decoration')->comment('装修风格')->nullable()->default('不限');
             $table->integer('decoration_id')->comment('装修风格id')->default(0);

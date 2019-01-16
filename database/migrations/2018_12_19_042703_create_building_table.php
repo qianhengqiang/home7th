@@ -27,6 +27,7 @@ class CreateBuildingTable extends Migration
             $table->integer('jianzhu_area')->comment('建筑面积')->nullable()->default(0);
             $table->integer('zhandi_area')->comment('占地面积')->nullable()->default(0);
             $table->integer('manager_area')->comment('管理面积')->nullable()->default(0);
+            $table->integer('manager_gongwei')->comment('管理工位')->nullable()->default(0);
             $table->timestamp('build_time')->comment('建成时间')->nullable();
             $table->integer('order_in_advance_day')->comment('账单提醒天数')->nullable()->default(0);
             $table->integer('image')->nullable()->default(0)->comment('图片id');
@@ -39,7 +40,8 @@ class CreateBuildingTable extends Migration
             $table->increments('id');
             $table->integer('building_id')->nullable();
             $table->string('name')->comment('楼层名称');
-            $table->integer('space_count')->comment('面积总数或者工位总数')->default(0);
+            $table->integer('area_count')->comment('面积总数')->default(0);
+            $table->integer('gongwei_count')->comment('楼层工位总数')->default(0);
             $table->integer('hourse_count')->comment('房源总数')->default(0);
 //            $table->timestamps();
 

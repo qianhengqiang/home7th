@@ -15,6 +15,8 @@ class House extends Model implements Transformable
 {
     use TransformableTrait;
 
+    const AREA = 1;
+    const GONGWEI = 2;
     /**
      * The attributes that are mass assignable.
      *

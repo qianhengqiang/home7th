@@ -33,21 +33,42 @@ class Floor extends Model implements Transformable
 
     public function addHouse(House $house)
     {
-        $this->space_count += $house->space_count;
+        if($house->space_type == House::AREA) {
+
+            $this->area_count += $house->space_count;
+        }else{
+            $this->gongwei_count += $house->space_count;
+        }
         $this->hourse_count ++ ;
         return $this;
     }
 
     public function deleteHouse(House $house)
     {
-        $this->space_count -= $house->space_count;
+        if($house->space_type == House::AREA) {
+
+            $this->area_count -= $house->space_count;
+
+        }else{
+
+            $this->gongwei_count -= $house->space_count;
+
+        }
         $this->hourse_count --;
         return $this;
     }
 
     public function updateHouse(House $house)
     {
-        $this->space_count += ($house->space_count - $house->getOriginal('space_count'));
+        if($house->space_type == House::AREA) {
+
+            $this->area_count += ($house->space_count - $house->getOriginal('space_count'));
+
+        } else {
+
+            $this->gongwei_count += ($house->space_count - $house->getOriginal('space_count'));
+
+        }
         return $this;
     }
 

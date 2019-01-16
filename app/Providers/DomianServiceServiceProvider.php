@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\DomainService\BuildingDomainService;
 use App\DomainService\HouseDomainService;
+use App\DomainService\RenterDomainService;
 use App\DomainService\TagsDomainService;
 use Illuminate\Support\ServiceProvider;
 
@@ -37,6 +38,10 @@ class DomianServiceServiceProvider extends ServiceProvider
 
         $this->app->bind(HouseDomainService::class, function($app){
             return new HouseDomainService($app);
+        });
+
+        $this->app->bind(RenterDomainService::class, function($app){
+            return new RenterDomainService($app);
         });
     }
 }

@@ -58,7 +58,15 @@ class ManagerService
 
         $data['password'] = Hash::make($data['password']);
 
-        return $this->manager = $class::create($data);
+        $role = $data['roles'];
+        unset($data['roles']);
+
+        $this->manager = $class::create($data);
+
+        $this->assignRolesToManager($this->manager->id,$role);
+
+        return $this->manager;
+//        return $this->manager = $class::create($data);
 
     }
 
