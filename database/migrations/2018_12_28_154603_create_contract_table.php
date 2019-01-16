@@ -17,9 +17,9 @@ class CreateContractTable extends Migration
             $table->increments('id');
             $table->string('contract_number')->comment('合同编号');
             $table->tinyInteger('status')->comment('合同状态，1：审批中，2：审批失败');
-            $table->timestamp('start_time')->comment('合同开始时间');
-            $table->timestamp('end_time')->comment('合同结束时间');
-            $table->timestamp('sign_time')->comment('签订时间');
+            $table->timestamp('start_time')->comment('合同开始时间')->nullable();
+            $table->timestamp('end_time')->comment('合同结束时间')->nullable();
+            $table->timestamp('sign_time')->comment('签订时间')->nullable();
 //            $table->tinyInteger('unit_price_precision')->comment('单价保留小数点')->default(2);
 
             $table->tinyInteger('renter_id')->comment('租客id');
