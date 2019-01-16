@@ -44,6 +44,8 @@ class ManagerService
             $query->where('name','like','%'.$data['name'].'%');
         });
 
+        $query->with('roles');
+
         $list = $query->orderBy('created_at','desc')->paginate();
 //        $list = $query->orderBy('created_at','desc')->paginate($this->manager->getPerpage);
 //        $page = $condition['page'] ?? 1;
