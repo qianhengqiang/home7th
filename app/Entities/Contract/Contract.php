@@ -2,6 +2,7 @@
 
 namespace App\Entities\Contract;
 
+use App\Entities\Renter\Renter;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
@@ -30,10 +31,24 @@ class Contract extends Model implements Transformable
         'month_price_convert_type','lease_divide_type','pay_in_advance_type','pay_in_advance_day'
     ];
 
+    public const SHENHE_ING=1;
+    public const SHENHE_FAIL=2;
+    public const SHENHE_SUCCESS=3;
+    public const ZUOFEI=4;
 
     public function house()
     {
-        return $this->hasManyThrough(\App\Entities\Building\House::class,House::class);
+//        return $this->belongsToMany(\App\Entities\Building\House::class,House::class);
+        return $this->belongsToMany(\App\Entities\Building\House::class,'contract_house','contract_id','house_id')
+            ->withPivot('space');
     }
 
+    public function renter()
+    {
+        return $this->belongsTo(Renter::class,'renter_id');
+    }
+//    public function createHouseWhenCreateContract()
+//    {
+//
+//    }
 }

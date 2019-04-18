@@ -29,10 +29,10 @@ class CreateHousesTable extends Migration
             $table->integer('fee')->comment('欲租单价')->default(0);
             $table->tinyInteger('price_unit')->comment('基础单价单位,1:元/space·天,2:元/space·月,3:元/天,4:元/月')->default(0);
 
-            $table->tinyInteger('has_lease_count')->comment('已出租空间数')->default(0);
-            $table->tinyInteger('contract_all')->comment('该房间一共签订的合同数量（历史+现在）')->default(0);
-            $table->tinyInteger('contract_past')->comment('该房间已作废的的所有合同数量')->default(0);
-            $table->tinyInteger('contract_now')->comment('该房间目前有的合同数量')->default(0);
+            $table->integer('has_lease_count')->comment('已出租空间数')->default(0);
+            $table->integer('contract_all')->comment('该房间一共签订的合同数量（历史+现在）')->default(0);
+            $table->integer('contract_past')->comment('该房间已作废的的所有合同数量')->default(0);
+            $table->integer('contract_now')->comment('该房间目前有的合同数量')->default(0);
 
             $table->string('house_label')->comment('房源标签')->nullable();
             $table->timestamps();

@@ -13,10 +13,10 @@ class CreateContractTable extends Migration
      */
     public function up()
     {
-        Schema::create('contract', function (Blueprint $table) {
+        Schema::create('contracts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('contract_number')->comment('合同编号');
-            $table->tinyInteger('status')->comment('合同状态，1：审批中，2：审批失败');
+            $table->tinyInteger('status')->comment('合同状态，1:审批中,2：审批失败,3:审批成功，4:作废');
             $table->timestamp('start_time')->comment('合同开始时间')->nullable();
             $table->timestamp('end_time')->comment('合同结束时间')->nullable();
             $table->timestamp('sign_time')->comment('签订时间')->nullable();
@@ -88,6 +88,6 @@ class CreateContractTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contract');
+        Schema::dropIfExists('contracts');
     }
 }

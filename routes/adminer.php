@@ -47,6 +47,7 @@ Route::namespace('Admin')->group(function (){
     });
     Route::resource('tag', 'TagsController');
     Route::resource('renter', 'RentersController');
+    Route::resource('contract', 'ContractsController');
 //    Route::prefix('building')->group(function(){
 //
 //        Route::post('create','BuildingController@create');

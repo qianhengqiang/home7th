@@ -3,7 +3,12 @@
 namespace App\Providers;
 
 use App\Events\BuildingCreateEvent;
+use App\Events\ContractCreateEvent;
+use App\Events\ContractUpdateEvent;
 use App\Listeners\BuildingCreate;
+use App\Listeners\ContractUpdateSpaceChangeListener;
+use App\Listeners\ContractUpdateStatusChangeListener;
+use App\Listeners\UpdateHouseInfoWhenCreateContract;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +28,13 @@ class EventServiceProvider extends ServiceProvider
         BuildingCreateEvent::class => [
             BuildingCreate::class,
         ],
+        ContractCreateEvent::class => [
+          UpdateHouseInfoWhenCreateContract::class,
+        ],
+        ContractUpdateEvent::class => [
+            ContractUpdateStatusChangeListener::class,
+            ContractUpdateSpaceChangeListener::class,
+        ]
     ];
 
     /**

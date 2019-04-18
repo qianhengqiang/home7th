@@ -43,4 +43,8 @@ class House extends Model implements Transformable
         'house_label',
     ];
 
+    public function contract()
+    {
+        return $this->belongsToMany(\App\Entities\Contract\Contract::class,'contract_house','house_id','contract_id')->withPivot('space');
+    }
 }

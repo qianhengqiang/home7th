@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Contract;
+namespace App\Http\Controllers\Admin;
 
+use App\DomainService\ContractDomainService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\ContractCreateRequest;
-use App\Http\Requests\ContractUpdateRequest;
+use App\Http\Requests\Contract\ContractCreateRequest;
+use App\Http\Requests\Contract\ContractUpdateRequest;
 use App\Repositories\Contract\ContractRepository;
 use App\Validators\Contract\ContractValidator;
 
@@ -29,16 +30,19 @@ class ContractsController extends Controller
      */
     protected $validator;
 
+    protected $service;
     /**
      * ContractsController constructor.
      *
      * @param ContractRepository $repository
      * @param ContractValidator $validator
      */
-    public function __construct(ContractRepository $repository, ContractValidator $validator)
+    public function __construct(ContractRepository $repository, ContractValidator $validator, ContractDomainService $service)
     {
+        parent::__construct();
         $this->repository = $repository;
         $this->validator  = $validator;
+        $this->service = $service;
     }
 
     /**
@@ -49,7 +53,7 @@ class ContractsController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $contracts = $this->repository->all();
+        $contracts = $this->repository->with(['house','renter'])->all();
 
         if (request()->wantsJson()) {
 
@@ -76,7 +80,8 @@ class ContractsController extends Controller
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
-            $contract = $this->repository->create($request->all());
+//            $contract = $this->repository->create($request->all());
+            $contract = $this->service->contractCreate($request->all());
 
             $response = [
                 'message' => 'Contract created.',
@@ -110,7 +115,9 @@ class ContractsController extends Controller
      */
     public function show($id)
     {
-        $contract = $this->repository->find($id);
+//        $contract = $this->repository->find($id);
+        $contract = $this->repository->with(['house'])->find($id);
+
 
         if (request()->wantsJson()) {
 
@@ -148,11 +155,13 @@ class ContractsController extends Controller
      */
     public function update(ContractUpdateRequest $request, $id)
     {
+
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $contract = $this->repository->update($request->all(), $id);
+//            $contract = $this->repository->update($request->all(), $id);
+            $contract = $this->service->contractUpdate($request->all(),$id);
 
             $response = [
                 'message' => 'Contract updated.',
@@ -189,7 +198,7 @@ class ContractsController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->service->contractDelete($id);
 
         if (request()->wantsJson()) {
 
